@@ -23,7 +23,7 @@ def market(m: dict) -> dict:
     out = {"label": label, "market_id": str(m.get("id")), "volume_usd": vol(m.get("volumeNum") or m.get("volume")),
            "volume_24h_usd": vol(m.get("volume24hr")), "bid": prob(m.get("bestBid")), "ask": prob(m.get("bestAsk")),
            "last": prob(m.get("lastTradePrice")), "change_24h": prob(m.get("oneDayPriceChange")),
-           "change_1w": prob(m.get("oneWeekPriceChange")), "liquidity_usd": vol(m.get("liquidityNum")),
+           "change_1w": prob(m.get("oneWeekPriceChange")), "change_1m": prob(m.get("oneMonthPriceChange")), "liquidity_usd": vol(m.get("liquidityNum")),
            "type": m.get("sportsMarketType"), "line": num(m.get("line")), "closes": (m.get("endDate") or "")[:16] or None,
            "closed": True if m.get("closed") else None}
     if [o.lower() for o in outcomes] == ["yes", "no"] and prices:

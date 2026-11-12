@@ -37,7 +37,7 @@ def compact(fn):
     return run
 
 
-BRIEF = ("label", "prob", "outcomes", "volume", "volume_usd", "change_24h", "market_id", "result")
+BRIEF = ("label", "prob", "outcomes", "volume", "volume_usd", "change_24h", "change_1w", "change_1m", "market_id", "result")
 
 
 def _brief(ev: dict) -> dict:
@@ -61,7 +61,8 @@ async def search_markets(query: str, venue: Literal["both", "polymarket", "kalsh
     """Find prediction markets by topic on Polymarket and/or Kalshi (e.g. "2028 Democratic nominee", "Fed rate cut
     December", "Chiefs Super Bowl"). Returns events per venue, biggest volume first, each with its page `url`,
     `event_id`, volume and its leading markets (`label`, `prob`, `market_id`). Use get_event for every market of one
-    event, price_history for a market's trend."""
+    event, price_history for a market's trend. Polymarket markets also carry change_1w / change_1m (probability
+    points), so "who moved most" needs no history calls there."""
     limit = max(1, min(limit, 15))
     calls = {}
     if venue in ("both", "polymarket"):
