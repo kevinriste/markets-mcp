@@ -54,7 +54,7 @@ def _trim(ev: dict, n: int, sort: str = "prob") -> dict:
     return out
 
 
-@mcp.tool()
+@mcp.tool(title='Search markets')
 @compact
 async def search_markets(query: str, venue: Literal["both", "polymarket", "kalshi"] = "both", limit: int = 6,
                          include_closed: bool = False) -> dict:
@@ -80,7 +80,7 @@ async def search_markets(query: str, venue: Literal["both", "polymarket", "kalsh
     return out
 
 
-@mcp.tool()
+@mcp.tool(title='Market event')
 @compact
 async def get_event(venue: Venue, event_id: str, market_filter: str | None = None, max_markets: int = 30,
                     sort: Literal["prob", "volume"] = "prob", include_closed: bool = False) -> dict:
@@ -100,7 +100,7 @@ async def get_event(venue: Venue, event_id: str, market_filter: str | None = Non
     return _trim(ev, max(1, min(max_markets, 100)), sort)
 
 
-@mcp.tool()
+@mcp.tool(title='Price history')
 @compact
 async def price_history(venue: Venue, market_id: str, window: Window = "1w", outcome: str | None = None) -> dict:
     """How one market's probability moved: up to ~40 points over the window plus a summary (start, end, change,
@@ -112,7 +112,7 @@ async def price_history(venue: Venue, market_id: str, window: Window = "1w", out
     return await kalshi.price_history(http, market_id, window)
 
 
-@mcp.tool()
+@mcp.tool(title='NFL games')
 @compact
 async def nfl_games(team: str | None = None, days: int = 8) -> dict:
     """Upcoming NFL games on both venues side by side: moneyline (each team's win chance), the main spread and the
@@ -122,7 +122,7 @@ async def nfl_games(team: str | None = None, days: int = 8) -> dict:
     return await nfl.games(http, team, max(1, min(days, 21)))
 
 
-@mcp.tool()
+@mcp.tool(title='NFL futures')
 @compact
 async def nfl_futures(kind: Literal["champion", "afc", "nfc", "playoffs"] = "champion", team: str | None = None) -> dict:
     """NFL season futures on both venues side by side, one row per team, likeliest first: Super Bowl champion,
