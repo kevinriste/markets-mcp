@@ -1,19 +1,18 @@
 # markets-mcp: read-only Polymarket + Kalshi odds over MCP (Streamable HTTP at /mcp). Keyless, no secrets.
 #   docker compose up -d --build
-# Publishes no ports: Calliope's agent reaches it as http://markets-mcp:8000/mcp on realtime-android_default.
+# Published on loopback only: the server has no auth, so keep it off public interfaces.
+# A docker-compose.override.yml (git-ignored) is merged in automatically for local wiring,
+# e.g. joining another stack's network instead of publishing a port.
 services:
   markets-mcp:
     build: .
     image: markets-mcp:latest
     container_name: markets-mcp
-    restart: always
+    restart: unless-stopped
     init: true
     read_only: true
     tmpfs: [/tmp]
     security_opt: [no-new-privileges:true]
     cap_drop: [ALL]
-    networks: [calliope]
-networks:
-  calliope:
-    name: realtime-android_default
-    external: true
+    ports:
+      - "127.0.0.1:${MARKETS_MCP_PORT:-8000}:8000"
